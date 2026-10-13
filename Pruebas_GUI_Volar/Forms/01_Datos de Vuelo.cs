@@ -88,6 +88,7 @@ namespace Pruebas_GUI_Volar
                             xf,                                                         //  Su yo
                             yf,                                                         //  Su xf
                             vel);                                                       //  Su yf
+                        menu.planList.AddFlightPlan(menu.vueloA);
                         av = new AvisosBox("El Vuelo A esta creado!");                  //  Crea la ventana de avisando del vuelo creado
                         av.Show(this);                                                  //  Abre la ventana de avisos
                     }                                                                   //
@@ -100,6 +101,7 @@ namespace Pruebas_GUI_Volar
                             xf,                                                         //  Su yo
                             yf,                                                         //  Su xf
                             vel);                                                       //  Su yf
+                        menu.planList.AddFlightPlan(menu.vueloB);
                         av = new AvisosBox("El Vuelo B esta creado!");                  //  Crea la ventana de avisando del vuelo creado
                         av.Show(this);                                                  //  Abre la ventana de avisos
                     }                                                                   //

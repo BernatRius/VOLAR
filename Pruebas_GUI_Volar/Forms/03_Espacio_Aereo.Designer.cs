@@ -29,8 +29,6 @@
         private void InitializeComponent()
         {
             this.EspAereo = new System.Windows.Forms.Panel();
-            this.AvionBBox = new System.Windows.Forms.PictureBox();
-            this.AvionABox = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -43,38 +41,16 @@
             this.CicloBut = new System.Windows.Forms.Button();
             this.LoadBut = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
-            this.EspAereo.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.AvionBBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.AvionABox)).BeginInit();
             this.SuspendLayout();
             // 
             // EspAereo
             // 
             this.EspAereo.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.EspAereo.Controls.Add(this.AvionBBox);
-            this.EspAereo.Controls.Add(this.AvionABox);
             this.EspAereo.Location = new System.Drawing.Point(395, 50);
             this.EspAereo.Name = "EspAereo";
             this.EspAereo.Size = new System.Drawing.Size(750, 750);
             this.EspAereo.TabIndex = 0;
-            // 
-            // AvionBBox
-            // 
-            this.AvionBBox.Image = global::Pruebas_GUI_Volar.Properties.Resources.avion_40;
-            this.AvionBBox.Location = new System.Drawing.Point(355, 355);
-            this.AvionBBox.Name = "AvionBBox";
-            this.AvionBBox.Size = new System.Drawing.Size(40, 40);
-            this.AvionBBox.TabIndex = 1;
-            this.AvionBBox.TabStop = false;
-            // 
-            // AvionABox
-            // 
-            this.AvionABox.Image = global::Pruebas_GUI_Volar.Properties.Resources.avion_40;
-            this.AvionABox.Location = new System.Drawing.Point(0, 0);
-            this.AvionABox.Name = "AvionABox";
-            this.AvionABox.Size = new System.Drawing.Size(40, 40);
-            this.AvionABox.TabIndex = 0;
-            this.AvionABox.TabStop = false;
+            this.EspAereo.MouseClick += new System.Windows.Forms.MouseEventHandler(this.EspAereo_MouseClick);
             // 
             // label1
             // 
@@ -216,9 +192,6 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "_03_Espacio_Aereo";
             this.Text = "_03_Espacio_Aereo";
-            this.EspAereo.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.AvionBBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.AvionABox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -234,12 +207,10 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.PictureBox AvionABox;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Button CicloBut;
         private System.Windows.Forms.Button LoadBut;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.PictureBox AvionBBox;
     }
 }

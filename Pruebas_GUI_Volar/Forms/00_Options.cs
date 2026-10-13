@@ -16,7 +16,7 @@ namespace Pruebas_GUI_Volar
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public partial class Options : Form
     {
-        FlightPlanList planList = new FlightPlanList();                                                         //  Creamos una lista vacia donde añadiremos los vuelos
+        public FlightPlanList planList;                                                                         //  Creamos una lista vacia donde añadiremos los vuelos
         public FlightPlan vueloA;                                                                               //  Preparamos el objeto VueloA, sin inicializar datos
         public FlightPlan vueloB;                                                                               //  Preparamos el objeto VueloB, sin inicializar datos
         public double dSeg;                                                                                     //  Definimos la variable distancia de seguridad
@@ -24,9 +24,8 @@ namespace Pruebas_GUI_Volar
     //////////////////////////////////////////////////////////////    Constructor   ///////////////////////////////////////////////////////////////////
         public Options()
         {
+            planList = new FlightPlanList();
             InitializeComponent();                                                                              //  Iniciamos los componentes, esto siempre esta
-            planList.AddFlightPlan(vueloA);                                                                     //  Metemos en la lista el vuelo A
-            planList.AddFlightPlan(vueloB);                                                                     //  Metemos en la lista el vuelo B
         }
     ////////////////////////////////////////////////////////////     Metodos voids   ////////////////////////////////////////////////////////////////////////
 
