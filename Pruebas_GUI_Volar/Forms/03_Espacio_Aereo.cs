@@ -18,6 +18,7 @@ namespace Pruebas_GUI_Volar
         FlightPlan plane;
         Image avion_40;
         _05_Datos_Avion da;
+        bool conflictoDetectado = false;
 
         public _03_Espacio_Aereo(Options menu)
         {
@@ -25,10 +26,10 @@ namespace Pruebas_GUI_Volar
             this.menu = menu;
             this.avion_40 = Properties.Resources.avion_40;
 
-            // 🟢 FASE 8 — Connectem el Timer de la Toolbox amb el mètode automàtic.
+            // Connectem el amb el mètode automàtic.
             simulacionTimer.Tick += SimulacionTimer_Tick;
 
-            // 🟢 FASE 8 — Connectem els botons amb els seus mètodes.
+            // Connectem els botons amb els mètodes.
             IniciarAutoSim.Click += InicarAutoSim_Click;
             DetenerAutoSim.Click += DetenerAutoSim_Click;
 
@@ -57,6 +58,8 @@ namespace Pruebas_GUI_Volar
 
         private void CicloBut_Click(object sender, EventArgs e)
         {
+            if (conflictoDetectado) // Si s'ha detectat un conflicte no podem continuar la simulació
+                return;
             for (int i = 0; i < 10; i++)
             {
                 if (menu.planList.GetFlightPlan(i) != null)
@@ -65,15 +68,21 @@ namespace Pruebas_GUI_Volar
                 }
             }
             EspAereo.Invalidate();
+            ComprovarConflictes();
         }
 
-        // 🟢 FASE 8 — Aquest mètode s'executa automàticament cada 500 ms.
+        // Executa automàticament cada 500 ms.
         private void SimulacionTimer_Tick(object sender, EventArgs e)
         {
+            if (conflictoDetectado) // Si s'ha detectat un conflicte, aturem la simulació automàtica
+            {
+                simulacionTimer.Stop();
+                return;
+            }
             // Recorrem les 10 posicions possibles de la llista de plans de vol.
             for (int i = 0; i < 10; i++)
             {
-                // Comprovem que hi hagi un pla de vol en aquesta posició.
+                // Comprovem que hi hagi un pla de vol
                 if (menu.planList.GetFlightPlan(i) != null)
                 {
                     // Movem l'avió segons el temps de cicle establert.
@@ -83,19 +92,19 @@ namespace Pruebas_GUI_Volar
 
             // Actualitzem el dibuix per mostrar les noves posicions dels avions.
             EspAereo.Invalidate();
+            ComprovarConflictes();
         }
 
-        // 🟢 FASE 8 — Inicia la simulació automàtica quan premem el botó.
+        //Inicia la simulació automàtica quan premem el botó
         private void InicarAutoSim_Click(object sender, EventArgs e)
         {
             // Posem en marxa el temporitzador.
             simulacionTimer.Start();
         }
 
-        // 🟢 FASE 8 — Atura la simulació automàtica quan premem el botó.
+        //Atura la simulació automàtica quan premem el botó
         private void DetenerAutoSim_Click(object sender, EventArgs e)
         {
-            // Aturem el temporitzador sense reiniciar la posició dels avions.
             simulacionTimer.Stop();
         }
 
@@ -135,6 +144,37 @@ namespace Pruebas_GUI_Volar
                 }
             }
         }
+
+
+        private void ComprovarConflictes()
+        {
+            for (int i = 0; i < 10; i++) // Recorrem les 10 posicions possibles de la llista de plans de vol (anirem comparant cada avió amb els seguents de la llista)
+            {
+                FlightPlan avio1 = menu.planList.GetFlightPlan(i);
+
+                if (avio1 != null)
+                {
+                    for (int j = i + 1; j < 10; j++)
+                    {
+                        FlightPlan avio2 = menu.planList.GetFlightPlan(j);
+
+                        if (avio2 != null)
+                        {
+                            if (avio1.Conflicto(avio2, menu.dSeg)) // Utilitzem el metode Conflicto de la classe FlightPlan (Fase 1)
+                            {
+                                simulacionTimer.Stop(); // Aturem la simulació automàtica si hi ha un conflicte
+
+                                AlertaConflicto alerta = new AlertaConflicto(); 
+                                alerta.ShowDialog(this); // Mostrem el missatge d'alerta de conflicte
+
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
 
         private void EspAereo_MouseClick(object sender, MouseEventArgs e)
         {
