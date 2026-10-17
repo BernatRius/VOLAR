@@ -18,15 +18,23 @@ namespace Pruebas_GUI_Volar
         FlightPlan plane;
         Image avion_40;
         _05_Datos_Avion da;
+
         public _03_Espacio_Aereo(Options menu)
         {
             InitializeComponent();
             this.menu = menu;
             this.avion_40 = Properties.Resources.avion_40;
 
+            // 🟢 FASE 8 — Connectem el Timer de la Toolbox amb el mètode automàtic.
+            simulacionTimer.Tick += SimulacionTimer_Tick;
+
+            // 🟢 FASE 8 — Connectem els botons amb els seus mètodes.
+            IniciarAutoSim.Click += InicarAutoSim_Click;
+            DetenerAutoSim.Click += DetenerAutoSim_Click;
+
             for (int i = 0; i < 10; i++)
             {
-                if(menu.planList.GetFlightPlan(i) != null) 
+                if (menu.planList.GetFlightPlan(i) != null)
                 {
                     menu.planList.GetFlightPlan(i).Restart();
                 }
@@ -34,6 +42,7 @@ namespace Pruebas_GUI_Volar
 
             EspAereo.Paint += new PaintEventHandler(EspAereo_Paint);
         }
+
         private void LoadBut_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < 10; i++)
@@ -45,6 +54,7 @@ namespace Pruebas_GUI_Volar
             }
             EspAereo.Invalidate();
         }
+
         private void CicloBut_Click(object sender, EventArgs e)
         {
             for (int i = 0; i < 10; i++)
@@ -56,6 +66,39 @@ namespace Pruebas_GUI_Volar
             }
             EspAereo.Invalidate();
         }
+
+        // 🟢 FASE 8 — Aquest mètode s'executa automàticament cada 500 ms.
+        private void SimulacionTimer_Tick(object sender, EventArgs e)
+        {
+            // Recorrem les 10 posicions possibles de la llista de plans de vol.
+            for (int i = 0; i < 10; i++)
+            {
+                // Comprovem que hi hagi un pla de vol en aquesta posició.
+                if (menu.planList.GetFlightPlan(i) != null)
+                {
+                    // Movem l'avió segons el temps de cicle establert.
+                    menu.planList.GetFlightPlan(i).Mover(menu.tCicl);
+                }
+            }
+
+            // Actualitzem el dibuix per mostrar les noves posicions dels avions.
+            EspAereo.Invalidate();
+        }
+
+        // 🟢 FASE 8 — Inicia la simulació automàtica quan premem el botó.
+        private void InicarAutoSim_Click(object sender, EventArgs e)
+        {
+            // Posem en marxa el temporitzador.
+            simulacionTimer.Start();
+        }
+
+        // 🟢 FASE 8 — Atura la simulació automàtica quan premem el botó.
+        private void DetenerAutoSim_Click(object sender, EventArgs e)
+        {
+            // Aturem el temporitzador sense reiniciar la posició dels avions.
+            simulacionTimer.Stop();
+        }
+
         private void EspAereo_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
@@ -84,11 +127,11 @@ namespace Pruebas_GUI_Volar
                         );
                     float radio = (float)menu.dSeg;
 
-                    g.DrawEllipse(rojo, centro.X - radio,centro.Y - radio, 2*radio, 2*radio);
-                    g.DrawLine(rojo, inicio, final );
+                    g.DrawEllipse(rojo, centro.X - radio, centro.Y - radio, 2 * radio, 2 * radio);
+                    g.DrawLine(rojo, inicio, final);
                     g.DrawImage(avion_40,
                                 centro.X - avion_40.Width / 2,
-                                centro.Y - avion_40.Height/2);
+                                centro.Y - avion_40.Height / 2);
                 }
             }
         }
@@ -118,6 +161,11 @@ namespace Pruebas_GUI_Volar
                     }
                 }
             }
+        }
+
+        private void IniciarAutoSim_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
